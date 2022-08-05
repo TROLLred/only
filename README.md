@@ -1,46 +1,45 @@
-# Getting Started with Create React App
+# Warning Legacy Code
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Техническое задание
+Требуется написать приложение в соответствии с макетом. Все запросы к серверу нужно имитировать на стороне фронта. </br>
+Макет - [Figma](https://www.figma.com/file/jyTp0gnYwVBkppUgab90ju/Only-forms?node-id=0%3A1).
+1. На странице "Авторизация" пользователь вводит данные (логин: *steve.jobs@example.com*, пароль: *password*), в случае ошибки выводить сообщение в соответствии с дизайном. В момент отправки запроса на сервер (имитация), следует отключать кнопку.
+2. После того, как пользователь успешно авторизовался, его должно перенести на страницу "Профиль" ([/profile](https://github.com/TROLLred/only/blob/main/src/pages/Profile.tsx)), где отображается почта под которой он авторизовался.
+3. При нажатии на кнопку "Выйти", необходимо произвести выход из системы с возвращением на страницу "Авторизация" ([/login](https://github.com/TROLLred/only/blob/main/src/pages/Login.tsx))
+## Стек
+- [React](https://ru.reactjs.org/), 
+- [Typescript](https://create-react-app.dev/docs/adding-typescript/) `npx create-react-app . --template typescript`, 
+- [React Router Dom](https://www.npmjs.com/package/react-router-dom) `npm i react-router-dom @types/react-router-dom`, 
+- [Styled-Components](https://styled-components.com/) `npm i styled-components @types/styled-components`,
+- [React Hook Form](https://react-hook-form.com/ru/) `npm i react-hook-form`.
 
-## Available Scripts
+## Комментарии о проделанной работе
+Для собственного удобства использовал дополнительные библиотеки:
+- REST API: [Axios](https://www.npmjs.com/package/axios) `npm i axios`
+- Store: [Redux](https://redux.js.org/) `npm i redux react-redux redux-think @types/react-redux @types/redux-thunk`
 
-In the project directory, you can run:
+Структура приложения расширяемая:
+- Реализованны public и private routes, логика авторизации и расширения маршрутов;
+- Реализована возможность расширения store, reducers, action-creators.
 
-### `npm start`
+Кастомные хуки:
+- useActions позволяет сделать dispatch всех action-creators;
+- useTypedSelector.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Программа запускается на следующих портах:
+- Клиент:
+```
+http://localhost:3000
+```
+- Фейковая [нереляционная база данных пользователей](https://github.com/TROLLred/only/blob/main/public/users.json):
+```
+http://localhost:3000/users.json
+```
+## От себя
+Данное задание выполнено за 3 дня. </br>
+Столкнулся со следующими трудностями:
+- Не мог правильно подобрать интерфейсы и дженерики из-за конфликта тайпскрипта с styled-components и react-hook-form, пришлось отказаться от функциональных UI компонентов для input и button;
+- Сначала пытался хранить авторизацию через useContext, но опять конфликтовал с typescript, пришлось залезать в свои старые проекты и вспоминать, как работать с redux в typescript проектах, что повлекло за собой дополнительную подгрузку 3-х Redux пакетов;
+- Хотел использовать Bootstrap или MUI, но сетка в шаблоне фигмы оказалась больно специфичной (мало того, что сетка в шаблоне на весь экран, так еще и между столбцами нет отступов) и я отринул данную идею, ограничился Flexbox Layout.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Считаю, что тестовое задание выполнил успешно с полным соблюдением ТЗ, но жду фидбэк, чтобы учесть ошибки, которые я не заметил. (О, нет, я забыл сделать регулярное выражение для логина, но меня об этом не просили, так что ладно).
