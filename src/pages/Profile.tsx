@@ -1,7 +1,9 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
+// import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../components/UI/Button';
-import { AuthContext } from '../context';
+import StyledButton from '../components/UI/Button';
+import { useActions } from '../hooks/useActions';
+import { useTypedSelector } from '../hooks/useTypedSelector';
 
 const Wrapper = styled.div`
     display: flex;
@@ -23,10 +25,13 @@ const UserName = styled.span`
 `
 
 const Profile: FC = () => {
+    //const router = useHistory();
+    const {user} = useTypedSelector(state => state.auth);
+    const {logout} = useActions();
     return (
         <Wrapper>
-            <Greetings>Здравствуйте, <UserName>steve.jobs@example.com</UserName></Greetings>
-            <Button>Выйти</Button>
+            <Greetings>Здравствуйте, <UserName>{user.email}</UserName></Greetings>
+            <StyledButton onClick={logout}>Выйти</StyledButton>
         </Wrapper>
     );
 };

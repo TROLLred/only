@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { createGlobalStyle } from 'styled-components';
 import FontStyles from './fonts';
+import { Provider } from 'react-redux';
+import {store} from "./store";
 
 const Global = createGlobalStyle`
   * {
@@ -31,9 +33,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <BrowserRouter>
-    <Global />
-    <FontStyles />
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Global />
+      <FontStyles />
+      <App />
+    </BrowserRouter>
+  </Provider>
 );

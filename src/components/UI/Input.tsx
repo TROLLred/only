@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, InputHTMLAttributes } from "react";
 import styled from 'styled-components';
 
 const StyledInput = styled.input`
@@ -9,16 +9,23 @@ const StyledInput = styled.input`
     border-radius: 8px;
     border: none;
     padding: 20px;
+    margin-top: 10px;
     font-family: 'Helvetica Neue';
     font-size: 16px;
 
     outline: none;
+    
+    &[aria-invalid='true'] {
+        border: 1px solid var(--error-color);
+        color: var(--error-color);
+    }
 
     ${props => props.type === 'checkbox' && `
         -webkit-appearance: none;
         width: 20px;
         height: 20px;
         padding: 0;
+        margin-top: 0;
         margin-right: 14px;
         background-color: var(--bg);
         box-shadow: inset 2px 2px 0 var(--bg),
@@ -36,17 +43,5 @@ const StyledInput = styled.input`
         }
     `}
 `
-/* пропсами передавать ошибку и менять цвет*/
 
-interface InputProps {
-    type: string;
-    placeholder?: string;
-};
-
-const Input: FC<InputProps> = (props) => {
-    return(
-        <StyledInput {...props} />
-    );
-};
-
-export default Input;
+export default StyledInput;

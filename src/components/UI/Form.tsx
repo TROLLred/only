@@ -1,9 +1,14 @@
 import React, { FC } from "react";
 import styled from 'styled-components';
 import Button from "./Button";
+import StyledButton from "./Button";
 import Input from "./Input";
+import StyledInput from "./Input";
 import Label from "./Label";
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import InvalidEmailError from "./InvalidEmailError";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 
 const StyledForm = styled.form`
     width: 640px;
@@ -13,7 +18,6 @@ const StyledForm = styled.form`
 `;
 
 const Field = styled.div`
-    height: 89px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -28,11 +32,20 @@ const CheckboxField = styled.div`
     margin-bottom: 40px;
 `;
 
+const RequiredError = styled.span`
+    color: var(--error-color);
+    font-size: 14px;
+    margin-top: 8px;
+`;
+
+type FormValues = {
+    email: string;
+    password: string;
+};
+
 const Form: FC = () => {
-    type FormValues = {
-        email: string;
-        password: string;
-    };
+    const {error, isLoading} = useTypedSelector(state => state.auth);
+    const {login} = useActions();
     const {
         register,
         formState: {
@@ -41,33 +54,42 @@ const Form: FC = () => {
         handleSubmit,
     } = useForm<FormValues>();
 
-    const onSubmit = (data: FormValues) => {
-        alert(JSON.stringify(data))
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
+        login(data.email, data.password);
     }
 
     return(
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
+            {error &&
+                <Field>
+                    <InvalidEmailError>{error}</InvalidEmailError>
+                </Field>
+            }
             <Field>
                 <Label>Логин</Label>
-                <Input 
+                <StyledInput 
                     type='text' 
                     placeholder='steve.jobs@example.com'
-                    {...register('email')}
+                    {...register('email', {required: 'Обязательное поле'})}
+                    aria-invalid={errors.email ? "true" : "false"}
                 />
+                {errors.email && <RequiredError>{errors.email.message}</RequiredError>}
             </Field>
             <Field>
                 <Label>Пароль</Label>
-                <Input 
+                <StyledInput 
                     type='password' 
                     placeholder='password'
-                    {...register('password')}
+                    {...register('password', {required: 'Обязательное поле'})}
+                    aria-invalid={errors.password ? "true" : "false"}
                 />
+                {errors.password && <RequiredError>{errors.password.message}</RequiredError>}
             </Field>
             <CheckboxField>
-                <Input type='checkbox'/>
+                <StyledInput type='checkbox'/>
                 <Label>Запомнить пароль</Label>
             </CheckboxField>
-            <Button type='submit'>Войти</Button>
+            <StyledButton type='submit' disabled={isLoading} primary>Войти</StyledButton>
         </StyledForm>
     );
 };

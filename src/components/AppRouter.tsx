@@ -1,10 +1,10 @@
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { privateRoutes, publicRoutes, RouteNames } from "../routes";
-import { AuthContext } from '../context';
+import {useTypedSelector} from "../hooks/useTypedSelector";
 
 const AppRouter: FC = () => {
-    const isAuth = useContext(AuthContext);
+    const {isAuth} = useTypedSelector(state => state.auth);
     return (
         isAuth ?
             <Routes>
