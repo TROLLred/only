@@ -31,7 +31,7 @@
 ```
 http://localhost:3000
 ```
-- Фейковая [нереляционная база данных пользователей](https://github.com/TROLLred/only/blob/main/public/users.json):
+- Моковая [нереляционная база данных пользователей](https://github.com/TROLLred/only/blob/main/public/users.json):
 ```
 http://localhost:3000/users.json
 ```
